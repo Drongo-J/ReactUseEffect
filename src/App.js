@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
+function VideoPlayer({src, isPlaying}){
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (isPlaying){
+      ref.current.play();
+    }
+    else{
+      ref.current.pause();
+    }
+  })
+
+  return <video ref={ref} src={src}></video>
+}
+
 function App() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+     <button onClick={() => setIsPlaying(!isPlaying)}>
+      {isPlaying ? "Pause" : "Play"}
+      </button> 
+      <VideoPlayer isPlaying={isPlaying} src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></VideoPlayer>
+    </>
   );
 }
 
